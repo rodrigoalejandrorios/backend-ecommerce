@@ -10,7 +10,46 @@ const all = async (_, res) => {
   }
 };
 
-const simple = async (_, res) => {};
+const single = async (_, res) => {
+  try {
+  } catch (e) {}
+};
+
+//VALIDAR COMPRA
+
+const approvePurchases = async (products) => {
+  const productsList = products.map(({ id, price, quantity }) =>
+    Product.find({
+      _id: product.id,
+      price: product.price,
+      stock: { gte: product.quantity },
+      enable: true,
+    })
+  );
+
+  const [approvePurchasesResult] = await Promise.all(productsList);
+  if (approvePurchasesResult.length) return true;
+  return false;
+};
+
+//DISMINUIR STOCK
+
+const updateStock = async (products) => {
+  try {
+    const result = products.map(({ id, quantity }) => {
+      Product.findByIdAndUpdate(
+        { id },
+        {
+          $inc: { stock: -quantity },
+        }
+      );
+    });
+    const [updatedStock] = await Promise.all(result);
+    throw new Error("Ocurrió un error sobre la actualización de stock");
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 //LLAMA A LA LISTA EN GENERAL
 
